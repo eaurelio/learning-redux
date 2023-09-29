@@ -7,12 +7,15 @@ import Cart from "../cart/index";
 // Styles
 import * as Styles from "./styles";
 import { userLogOut, userLogin } from "../../redux/userReducer/userActions";
+import { selectProductsCount } from "../../redux/cartReducer/cartSelectors";
 
 function Header() {
   const [cartIsVisible, setCartIsVisible] = useState(false);
-  const {currentUser} = useSelector(rootReducer => rootReducer.userReducer)
-  const dispatch = useDispatch()
-  console.table(currentUser)
+  const { currentUser } = useSelector(rootReducer => rootReducer.userReducer)
+  const dispatch = useDispatch()  
+
+  const productsCount = useSelector(selectProductsCount)
+
 
   const handleCartClick = () => {
     setCartIsVisible(true);
@@ -20,7 +23,7 @@ function Header() {
 
   const handleLogin = () => {
     dispatch(
-      userLogin({name: 'edson', email: 'edson@mail.com'})
+      userLogin({ name: 'edson', email: 'edson@mail.com' })
     )
   }
 
@@ -38,8 +41,8 @@ function Header() {
           ? <div onClick={handleLogOut}>Logout</div>
           : <div onClick={handleLogin} >Login</div>
         }
-        
-        <div onClick={handleCartClick}>Carrinho</div>
+
+        <div onClick={handleCartClick}>Carrinho ({productsCount})</div>
       </Styles.Buttons>
 
       <Cart isVisible={cartIsVisible} setIsVisible={setCartIsVisible} />
